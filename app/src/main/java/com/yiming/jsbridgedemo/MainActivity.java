@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.yiming.jsbridge.Bridge1Impl;
-import com.yiming.jsbridge.BridgeImpl;
 import com.yiming.jsbridge.JSBridge;
 import com.yiming.jsbridge.JSBridgeWebChromeClient;
 

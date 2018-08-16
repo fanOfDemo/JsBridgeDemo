@@ -1,7 +1,11 @@
-package com.yiming.jsbridge;
+package com.yiming.jsbridgedemo;
 
 import android.webkit.WebView;
 import android.widget.Toast;
+
+import com.yiming.jsbridge.Callback;
+import com.yiming.jsbridge.IBridge;
+import com.yiming.jsbridge.ResultFactory;
 
 import org.json.JSONObject;
 
