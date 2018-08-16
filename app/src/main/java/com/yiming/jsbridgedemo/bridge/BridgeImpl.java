@@ -1,4 +1,4 @@
-package com.yiming.jsbridgedemo;
+package com.yiming.jsbridgedemo.bridge;
 
 import android.webkit.WebView;
 import android.widget.Toast;

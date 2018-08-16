@@ -14,6 +14,8 @@ import android.webkit.WebView;
 
 import com.yiming.jsbridge.JSBridge;
 import com.yiming.jsbridge.JSBridgeWebChromeClient;
+import com.yiming.jsbridgedemo.bridge.BridgeActionUrl;
+import com.yiming.jsbridgedemo.bridge.BridgeImpl;
 
 
 public class MainActivity extends AppCompatActivity {
