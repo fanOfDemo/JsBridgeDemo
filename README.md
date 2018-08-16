@@ -18,7 +18,7 @@ a sample jsBridge
         //方法二：通过 WebChromeClient 的 onJsPrompt 实现
         mWebView.setWebChromeClient(new JSBridgeWebChromeClient());
 
-        //理论上方法一快于方法二，但是方法一在android4.2下不安全，如果你的产品不需要兼容到4.2以下，推荐使用方法一实现jsBridge
+        //理论上方法一快于方法二，但是方法一在android4.2下不安全，如果你的项目不需要兼容到4.2以下，推荐使用方法一实现jsBridge
 
 
    ### js:
