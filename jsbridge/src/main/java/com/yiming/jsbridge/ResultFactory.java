@@ -1,4 +1,4 @@
-package com.yiming.jsbridgedemo.jsbridge;
+package com.yiming.jsbridge;
 
 import org.json.JSONException;
 import org.json.JSONObject;

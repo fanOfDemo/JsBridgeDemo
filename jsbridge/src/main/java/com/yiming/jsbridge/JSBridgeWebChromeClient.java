@@ -1,4 +1,4 @@
-package com.yiming.jsbridgedemo.jsbridge;
+package com.yiming.jsbridge;
 
 import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
