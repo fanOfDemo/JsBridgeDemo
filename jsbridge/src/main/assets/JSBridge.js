@@ -13,7 +13,8 @@
             this.callbacks[callbackId] = callback;
             var uri=Util.getUri(obj,method,params,callbackId);
             console.log(uri);
-            window.prompt(uri, "");
+            window.JSInterface.call(uri);// 方法一
+            window.prompt(uri, "");//方法二
         },
         onFinish: function (callbackId, jsonObj){
             var callback = this.callbacks[callbackId];

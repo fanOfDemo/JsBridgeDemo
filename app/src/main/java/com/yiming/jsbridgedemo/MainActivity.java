@@ -1,6 +1,7 @@
 package com.yiming.jsbridgedemo;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import com.yiming.jsbridge.JSBridge;
 import com.yiming.jsbridge.JSBridgeWebChromeClient;
 import com.yiming.jsbridgedemo.bridge.BridgeActionUrl;
 import com.yiming.jsbridgedemo.bridge.BridgeImpl;
+import com.yiming.jsbridge.JSJavaInterface;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,8 +46,21 @@ public class MainActivity extends AppCompatActivity {
         mWebView = findViewById(R.id.webView);
 
         WebSettings settings = mWebView.getSettings();
+
+
+        //方法一 ：通过 addJavascriptInterface 定义一个接口 call 方法实现
+        if (Build.VERSION.SDK_INT >= 11) {
+            // 移除系统自带的JS接口,这个漏洞曾经导致过各种病毒
+            mWebView.removeJavascriptInterface("searchBoxJavaBridge_");
+        }
         settings.setJavaScriptEnabled(true);
+        mWebView.addJavascriptInterface(new JSJavaInterface(mWebView),"JSInterface");
+
+        //方法二：通过 WebChromeClient 的 onJsPrompt 实现
         mWebView.setWebChromeClient(new JSBridgeWebChromeClient());
+
+        //理论上方法一快于方法二，但是方法一在android4.2下不安全，如果你的产品不需要兼容到4.2以下，推荐使用方法一实现jsBridge
+
         mWebView.loadUrl("file:///android_asset/index.html");
 
 
