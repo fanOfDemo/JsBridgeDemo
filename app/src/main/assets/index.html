@@ -42,8 +42,8 @@
 <ul class="list">
     <li>
         <div>
-            <button onclick="JSBridge.call('testBridge','test1',{},function(res){alert(JSON.stringify(res))})">
-                测试Bridge1Impl
+            <button onclick="JSBridge.call('actionUrl','startActivity',{'action':'setting'},function(res){alert(JSON.stringify(res))})">
+                打开设置页，action=setting
             </button>
         </div>
     </li>

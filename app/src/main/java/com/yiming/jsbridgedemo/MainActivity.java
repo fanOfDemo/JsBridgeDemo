@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         JSBridge.register("bridge", BridgeImpl.class);
-        JSBridge.register("testBridge", Bridge1Impl.class);
+        JSBridge.register("actionUrl", BridgeActionUrl.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
