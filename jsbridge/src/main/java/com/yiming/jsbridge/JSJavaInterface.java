@@ -3,8 +3,6 @@ package com.yiming.jsbridge;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
-import com.yiming.jsbridge.JSBridge;
-
 import java.lang.ref.WeakReference;
 
 public class JSJavaInterface {
