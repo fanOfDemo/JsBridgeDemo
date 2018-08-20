@@ -3,7 +3,7 @@ a sample jsBridge
 
 
 
-##bridge两种实现方式：
+##Android JSBridge三种实现方式：
 
    ### native：
 
