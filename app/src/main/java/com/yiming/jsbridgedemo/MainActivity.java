@@ -7,11 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.yiming.jsbridge.JSBridge;
 import com.yiming.jsbridge.JSBridgeWebChromeClient;
@@ -54,11 +57,27 @@ public class MainActivity extends AppCompatActivity {
             mWebView.removeJavascriptInterface("searchBoxJavaBridge_");
         }
         settings.setJavaScriptEnabled(true);
-        mWebView.addJavascriptInterface(new JSJavaInterface(mWebView),"JSInterface");
+        mWebView.addJavascriptInterface(new JSJavaInterface(mWebView), "JSInterface");
 
         //方法二：通过 WebChromeClient 的 onJsPrompt 实现
         mWebView.setWebChromeClient(new JSBridgeWebChromeClient());
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Log.e("JS iframe",request.getUrl().toString());
+                    JSBridge.callJava(mWebView, request.getUrl().toString());
+                }
+                return true;
+            }
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.e("JS iframe",url);
+                JSBridge.callJava(mWebView, url);
+                return true;
+            }
+        });
         //理论上方法一快于方法二，但是方法一在android4.2下不安全，如果你的产品不需要兼容到4.2以下，推荐使用方法一实现jsBridge
 
         mWebView.loadUrl("file:///android_asset/index.html");

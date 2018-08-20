@@ -21,15 +21,40 @@ a sample jsBridge
         //理论上方法一快于方法二，但是方法一在android4.2下不安全，如果你的项目不需要兼容到4.2以下，推荐使用方法一实现jsBridge
 
 
+        方法三 通过setWebViewClient拦截url实现，该方法的优点是Android和IOS可以保持代码一致性
+
+              WebViewClient() {
+                          @Override
+                          public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                  Log.e("JS iframe",request.getUrl().toString());
+                                  JSBridge.callJava(mWebView, request.getUrl().toString());
+                              }
+                              return true;
+                          }
+
+                          @Override
+                          public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                              Log.e("JS iframe",url);
+                              JSBridge.callJava(mWebView, url);
+                              return true;
+                          }
+                      }
+
+
    ### js:
 
          //window.JSInterface.call(uri);// 方法一
            window.prompt(uri, "");//方法二
 
+        //创建隐藏iframe过程
+           var messagingIframe = document.createElement('iframe');
+           messagingIframe.style.display = 'none';
+           document.documentElement.appendChild(messagingIframe);
+           messagingIframe.src = uri;
 
 
 ##bridge协议：
-
 
          JSBridge + '://' + obj + ':' + callbackId + '/' + method + '?' + params
 
@@ -42,19 +67,49 @@ a sample jsBridge
                 var hasOwnProperty = Object.prototype.hasOwnProperty;
                 var JSBridge = win.JSBridge || (win.JSBridge = {});
                 var JSBRIDGE_PROTOCOL = 'JSBridge';
+                var jsType = 0;
+
+                //创建隐藏iframe过程
+                var messagingIframe = document.createElement('iframe');
+                messagingIframe.style.display = 'none';
+                document.documentElement.appendChild(messagingIframe);
+
+
+
                 var Inner = {
                     callbacks: {},//用于缓存 callbackId 的map
                     //call和onFinish方法，在call方法中，我们调用Util.getPort()获得了port值，然后将callback对象存储在了callbacks中的port位置，
                     //接着调用Util.getUri()将参数传递过去，将返回结果赋值给uri，调用window.prompt(uri, “”)将uri传递到native层
+
+                    changeJSType: function (type){
+                        console.log(" type:"+type);
+                        jsType = type;
+                    },
+
                     call: function (obj, method, params, callback) {
                         console.log(obj+" "+method+" "+params+" "+callback);
                         var callbackId = Util.getCallbackId();
                         console.log(callbackId);
                         this.callbacks[callbackId] = callback;
-                        var uri=Util.getUri(obj,method,params,callbackId);
+                        var uri = Util.getUri(obj,method,params,callbackId);
                         console.log(uri);
-                        //window.JSInterface.call(uri);// 方法一
-                        window.prompt(uri, "");//方法二
+                        console.log(" jsType"+jsType);
+
+                        switch(jsType){
+                            case 0:
+                              window.JSInterface.call(uri);// 方法一
+                              break;
+                            case 1:
+                              window.prompt(uri, "");//方法二
+                              break;
+                            case 2:
+                              //进行url scheme传值的iframe 方法三
+                              messagingIframe.src = uri;
+                              break;
+                            default:
+                              messagingIframe.src = uri;
+                              break;
+                        }
                     },
                     onFinish: function (callbackId, jsonObj){
                         var callback = this.callbacks[callbackId];
@@ -84,6 +139,7 @@ a sample jsBridge
                 };
                 for (var key in Inner) {
                     if (!hasOwnProperty.call(JSBridge, key)) {
+                        console.log(key+": "+Inner[key]);
                         JSBridge[key] = Inner[key];
                     }
                 }

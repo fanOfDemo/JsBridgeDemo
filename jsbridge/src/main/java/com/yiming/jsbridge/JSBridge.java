@@ -47,7 +47,7 @@ public class JSBridge {
         String className = "";
         String param = "{}";
         String callbackId = "";
-        if (!TextUtils.isEmpty(uriString) && uriString.startsWith("JSBridge")) {
+        if (!TextUtils.isEmpty(uriString) && (uriString.startsWith("JSBridge")||uriString.startsWith("jsbridge"))) {
             Uri uri = Uri.parse(uriString);
             className = uri.getHost();
             param = uri.getQuery();

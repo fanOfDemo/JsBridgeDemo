@@ -17,6 +17,18 @@
 <body>
 <div>
     <h3>JSBridge 测试</h3>
+            <div>
+                <button onclick="JSBridge.changeJSType(0)">
+                    JavascriptInterface
+                </button>
+                <button onclick="JSBridge.changeJSType(1)">
+                    onJsPrompt
+                </button>
+                <button onclick="JSBridge.changeJSType(2)">
+                    JS IFrame
+                </button>
+            </div>
+        <br/>
 </div>
 <ul class="list">
     <li>
@@ -49,6 +61,17 @@
     </li>
     <br/>
 </ul>
+<ul class="list">
+    <li>
+        <div>
+            <button onclick="JSBridge.call('bridge'，'showToast',{'action':'setting'},function(res){alert(JSON.stringify(res))})">
+                测试iframe
+            </button>
+        </div>
+    </li>
+    <br/>
+</ul>
+
 
 
 
