@@ -5,6 +5,10 @@ a sample jsBridge
 
 ##Android JSBridge三种实现方式：
 
+<img src="picture/jsbridgedemo.jpg" width="320" />
+
+
+
    ### native：
 
          //方法一 ：通过 addJavascriptInterface 定义一个接口 call 方法实现
