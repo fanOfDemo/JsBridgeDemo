@@ -5,7 +5,7 @@ a sample jsBridge
 
 ##Android JSBridge三种实现方式：
 
-<img src="picture/jsbridgedemo.jpg" width="320" />
+<img src="pic/jsbridgedemo.jpg" width="320" />
 
 
 
